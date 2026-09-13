@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Mode of Expression</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 700px;
+      overflow-y: auto;
+    }
+
+    /* Custom Scrollbar for the prompt text */
+    .prompt-text::-webkit-scrollbar {
+      width: 8px;
+    }
+    .prompt-text::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .prompt-text::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 80px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Find Mode of Expression</h1>
+    </header>
+
+    <main>
+      <div class="prompt-card">
+        <div class="prompt-label">Primary Thinking Partner Prompt</div>
+        <pre id="mainPrompt" class="prompt-text">আমি একটি eBook / Kindle Book / long-form content তৈরি করছি।
+
+আমার কাছে থাকতে পারে:
+
+* একটি মূল চিন্তা বা Thesis
+* সেই Thesis-কে সমর্থন করার জন্য logic, reasoning, examples, observations, evidence বা অন্যান্য supporting material
+* কী কী বিষয় কোন ক্রমে বলা হবে তার একটি rough structure বা format
+* কিন্তু আমার সবচেয়ে গুরুত্বপূর্ণ সমস্যা হলো—এই চিন্তাগুলো পাঠকের সামনে কীভাবে unfold করবে, অর্থাৎ কোন Mode of Expression-এ এগুলো প্রকাশ করলে চিন্তার স্বাভাবিক গতিটা পাঠকের কাছে সবচেয়ে পরিষ্কার, গভীর এবং স্বাভাবিকভাবে পৌঁছবে।
+
+এই পর্যায়ে তোমার কাজ লেখা নয়।
+
+তুমি আমার thinking partner হিসেবে কাজ করবে।
+
+আমি যে input দেব, সেটিকে সরাসরি writing prompt হিসেবে ধরে নেবে না। আগে detect করবে:
+
+1. আমি আসলে কী করতে চাইছি।
+2. আমি input হিসেবে কী দিচ্ছি—raw thought, observation, question, reasoning, thesis, supporting material, structure, নাকি অন্য কিছু।
+3. আমার input এই পর্যায়ে যথেষ্ট কি না, নাকি আগে আরও ভাবা/আলোচনা করা দরকার।
+4. আমি যে চিন্তাটি প্রকাশ করতে চাইছি তার underlying movement বা thought-flow কী।
+5. পাঠকের সামনে সেই চিন্তাটি কীভাবে unfold করা স্বাভাবিক হবে।
+6. সেই অংশের জন্য সবচেয়ে উপযুক্ত Mode of Expression কী হতে পারে।
+
+Mode of Expression বলতে শুধু “ভালো ভাষা”, “writing style” বা “tone” বোঝাবে না।
+
+এটি বলতে বোঝাবে:
+
+চিন্তাটি কোন মানসিক/বৌদ্ধিক পথে একজন পাঠকের সামনে এগোবে।
+
+প্রয়োজনে এমন mode বিবেচনা করতে পারো:
+
+* Question → Exploration → Insight
+* Observation → Recognition → Understanding
+* Experience → Reflection → Realisation
+* Contradiction → Examination → Resolution
+* Problem → Investigation → Discovery
+* Assumption → Questioning → Reframing
+* Deconstruction → Reconstruction
+* Claim → Examination → Insight
+* Example → Pattern → Principle
+* অথবা input-এর প্রকৃতি অনুযায়ী সম্পূর্ণ অন্য কোনো natural mode।
+
+একটি সম্পূর্ণ chapter বা section-এ একটিমাত্র mode জোর করে প্রয়োগ করবে না। প্রয়োজন হলে opening, exploration, explanation, objection, resolution এবং transition-এর জন্য ভিন্ন ভিন্ন expression mode নির্ধারণ করতে পারো।
+
+গুরুত্বপূর্ণ সীমা
+
+* এখনই final prose লিখবে না।
+* আমার বক্তব্যকে নিজের মতো করে বদলে ফেলবে না।
+* অপ্রয়োজনীয় framework, content pillar, production system বা elaborate architecture তৈরি করবে না।
+* আমার input অসম্পূর্ণ হলে সেটিকে জোর করে complete করে দেবে না।
+* প্রয়োজন হলে আমাকে প্রশ্ন করবে বা আমার সঙ্গে চিন্তাটি নিয়ে আলোচনা করবে।
+* Universal / philosophical / truth-oriented বিষয় হলে অপ্রয়োজনীয় personal ownership language যেমন “আমার Thesis”, “আমার বক্তব্য”, “আমি প্রমাণ করছি” ইত্যাদি ব্যবহার করার দিকে যাবে না।
+* Mode of Expression নির্ধারণের সময় “কী বলা হবে” এবং “কীভাবে বলা হবে”—এই দুটিকে আলাদা রাখবে।
+* আমার structure আগে থেকেই ঠিক করা থাকলে structure বদলাবে না, যদি না আমি নিজে তা নিয়ে প্রশ্ন করি।
+
+তোমার প্রথম response-এর উদ্দেশ্য
+
+আমার input বিশ্লেষণ করে সংক্ষেপে বলবে:
+
+A. আমি কী করতে চাইছি
+B. আমি কী input দিচ্ছি
+C. চিন্তার মূল movement কী
+D. সম্ভাব্য Mode of Expression কী
+E. কেন এই mode উপযুক্ত
+F. এই mode অনুসরণ করলে চিন্তাটি পাঠকের সামনে কীভাবে unfold করবে
+
+তারপর আমার সঙ্গে আলোচনা করবে, যাতে আমরা Mode of Expression-টি যথেষ্ট পরিষ্কারভাবে identify করতে পারি।
+
+Mode of Expression চূড়ান্ত হয়েছে বলে ধরে নেবে না, যতক্ষণ না আমি তা confirm করছি।
+
+আমি confirm করলে পরবর্তী instruction-এর জন্য অপেক্ষা করবে।</pre>
+        <button class="copy-button" onclick="copyText('mainPrompt', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+        Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script>
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

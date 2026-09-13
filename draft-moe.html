@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Draft Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 700px;
+      overflow-y: auto;
+    }
+
+    /* Custom Scrollbar for the prompt text */
+    .prompt-text::-webkit-scrollbar {
+      width: 8px;
+    }
+    .prompt-text::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .prompt-text::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 80px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Draft Content</h1>
+    </header>
+
+    <main>
+      <div class="prompt-card">
+        <div class="prompt-label">Drafting Phase Prompt</div>
+        <pre id="mainPrompt" class="prompt-text">এখন Mode of Expression ঠিক হয়েছে।
+
+এবার আগের আলোচনায় যে Mode of Expression নির্ধারিত হয়েছে, সেটিই অনুসরণ করে লিখো।
+
+এখন তোমার কাজ হলো আমার দেওয়া চিন্তা, Thesis, reasoning, examples, observations, evidence এবং structure-কে সেই expression mode-এর মধ্যে naturally unfold করা।
+
+লেখার সময়:
+
+* Mode of Expression-কে শুধু writing style হিসেবে নয়, thought-flow হিসেবে অনুসরণ করবে।
+* পাঠক যেন চিন্তাটিকে এক ধাপ থেকে পরের ধাপে স্বাভাবিকভাবে আবিষ্কার করতে পারেন—সেটা নিশ্চিত করবে।
+* যেখানে প্রশ্ন দিয়ে এগোনো দরকার, সেখানে প্রশ্নের মাধ্যমে এগোবে।
+* যেখানে observation থেকে recognition-এ যাওয়া দরকার, সেখানে সেই movement বজায় রাখবে।
+* যেখানে contradiction বা objection প্রয়োজন, সেখানে সেটিকে স্বাভাবিকভাবে সামনে আনবে।
+* যেখানে explanation প্রয়োজন, সেখানে explanation দেবে।
+* যেখানে insight তৈরি হওয়ার কথা, সেখানে সেটিকে prematurely বলে দেবে না; চিন্তার unfold-এর মধ্য দিয়ে পাঠককে সেখানে পৌঁছতে দেবে।
+* প্রয়োজন হলে example ব্যবহার করবে, কিন্তু example যেন মূল চিন্তার জায়গা দখল না করে।
+* Logic, evidence এবং interpretation-কে একসঙ্গে মিশিয়ে ফেলবে না।
+* যেটি established fact, যেটি logical inference, যেটি experience-based observation এবং যেটি interpretation—প্রয়োজনে তাদের পার্থক্য বজায় রাখবে।
+* আমার নির্ধারিত structure ও conceptual boundaries মেনে চলবে।
+* পরবর্তী chapter-এর বিষয় অপ্রয়োজনে আগের chapter-এ ঢুকিয়ে দেবে না।
+* কোনো prerequisite concept পরে বিস্তারিতভাবে ব্যাখ্যা করার কথা থাকলে, এখানে তার full explanation দেবে না।
+* Universal / philosophical বিষয়কে ব্যক্তিগত ownership-এর ভাষায় উপস্থাপন করবে না।
+* “আমার Thesis”, “আমার বক্তব্য”, “আমি প্রমাণ করছি” ধরনের framing এড়িয়ে, প্রয়োজন অনুযায়ী impersonal ও intellectually grounded expression ব্যবহার করবে।
+* ভাষা হবে স্বাভাবিক, পরিষ্কার, চিন্তাশীল এবং পাঠযোগ্য বাংলা—অতিরিক্ত অলংকারপূর্ণ বা কৃত্রিম নয়।
+* শুধু তথ্য সাজিয়ে লিখবে না; চিন্তাটি unfold করবে।
+
+সবচেয়ে গুরুত্বপূর্ণ:
+
+> লক্ষ্য সুন্দর ভাষায় লেখা নয়।
+> লক্ষ্য হলো—যে পথে চিন্তাটি বোঝা যায়, সেই পথেই চিন্তাটিকে পাঠকের সামনে unfold করা।
+
+এখন লেখা শুরু করো।</pre>
+        <button class="copy-button" onclick="copyText('mainPrompt', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+        Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script>
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

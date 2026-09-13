@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inputs - Thinking Partner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-header {
+      margin-bottom: 10px;
+    }
+
+    .field-name {
+      display: block;
+      font-weight: 700;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .field-note {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Inputs</h1>
+    </header>
+
+    <div class="input-section">
+      <!-- Input #1 -->
+      <div class="field-group">
+        <div class="field-header">
+          <span class="field-name">Raw Thought — আমি কী ভাবছি</span>
+          <span class="field-note">যেভাবে মাথায় আসছে, সেভাবেই লিখুন। অসম্পূর্ণ হলেও চলবে।</span>
+        </div>
+        <textarea id="input1" placeholder="[যেভাবে মাথায় আসছে, সেভাবেই লিখুন। অসম্পূর্ণ হলেও চলবে। ]"></textarea>
+      </div>
+
+      <!-- Input #2 -->
+      <div class="field-group">
+        <div class="field-header">
+          <span class="field-name">আটকে থাকার জায়গা — কোথায় সমস্যা হচ্ছে</span>
+          <span class="field-note">কী বুঝতে, connect করতে, arrange করতে বা express করতে পারছি না।</span>
+        </div>
+        <textarea id="input2" placeholder="[কী বুঝতে, connect করতে, arrange করতে বা express করতে পারছি না। ]"></textarea>
+      </div>
+
+      <!-- Input #3 -->
+      <div class="field-group">
+        <div class="field-header">
+          <span class="field-name">Available Material — আমার কাছে কী কী আছে</span>
+          <span class="field-note">Logic / উদাহরণ / observation / evidence / ঘটনা / quotation / ধারণা / structure — যা আছে।</span>
+        </div>
+        <textarea id="input3" placeholder="[Logic / উদাহরণ / observation / evidence / ঘটনা / quotation / ধারণা / structure — যা আছে। ]"></textarea>
+      </div>
+
+      <!-- Input #4 -->
+      <div class="field-group">
+        <div class="field-header">
+          <span class="field-name">এখন কী চাই — এই মুহূর্তে তোমার কাছে কী চাই</span>
+          <span class="field-note">ভাবতে চাই / analyse করতে চাই / connection খুঁজতে চাই / Mode of Expression identify করতে চাই / অন্য কিছু।</span>
+        </div>
+        <textarea id="input4" placeholder="[ভাবতে চাই / analyse করতে চাই / connection খুঁজতে চাই / Mode of Expression identify করতে চাই / অন্য কিছু। ]"></textarea>
+      </div>
+    </div>
+
+    <main>
+      <div class="prompt-card">
+        <div class="prompt-label">Thinking Partner Prompt</div>
+        <pre id="displayPrompt" class="prompt-text">আমার Input
+
+১. Raw Thought — আমি কী ভাবছি:
+[যেভাবে মাথায় আসছে, সেভাবেই লিখুন। অসম্পূর্ণ হলেও চলবে। ]
+
+২. আটকে থাকার জায়গা — কোথায় সমস্যা হচ্ছে:
+[কী বুঝতে, connect করতে, arrange করতে বা express করতে পারছি না। ]
+
+৩. Available Material — আমার কাছে কী কী আছে:
+[Logic / উদাহরণ / observation / evidence / ঘটনা / quotation / ধারণা / structure — যা আছে। ]
+
+৪. এখন কী চাই — এই মুহূর্তে তোমার কাছে কী চাই:
+[ভাবতে চাই / analyse করতে চাই / connection খুঁজতে চাই / Mode of Expression identify করতে চাই / অন্য কিছু। ]
+
+নির্দেশ:
+এখনই লিখবে না। আগে আমার চিন্তাটা বুঝে নাও, আমি আসলে কী করতে চাইছি সেটা detect করো, এবং প্রয়োজন হলে আমার সঙ্গে আলোচনা করো।</pre>
+        <button class="copy-button" onclick="copyText('displayPrompt', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+        Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script>
+    const inputs = {
+      '[যেভাবে মাথায় আসছে, সেভাবেই লিখুন। অসম্পূর্ণ হলেও চলবে। ]': document.getElementById('input1'),
+      '[কী বুঝতে, connect করতে, arrange করতে বা express করতে পারছি না। ]': document.getElementById('input2'),
+      '[Logic / উদাহরণ / observation / evidence / ঘটনা / quotation / ধারণা / structure — যা আছে। ]': document.getElementById('input3'),
+      '[ভাবতে চাই / analyse করতে চাই / connection খুঁজতে চাই / Mode of Expression identify করতে চাই / অন্য কিছু। ]': document.getElementById('input4')
+    };
+
+    const displayPrompt = document.getElementById('displayPrompt');
+    const basePrompt = displayPrompt.textContent;
+
+    function updateDisplay() {
+      let updatedText = basePrompt;
+      for (const [placeholder, element] of Object.entries(inputs)) {
+        const val = element.value.trim() || placeholder;
+        updatedText = updatedText.split(placeholder).join(val);
+      }
+      displayPrompt.textContent = updatedText;
+    }
+
+    Object.values(inputs).forEach(el => el.addEventListener('input', updateDisplay));
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
